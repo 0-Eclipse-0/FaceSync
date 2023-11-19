@@ -23,7 +23,7 @@ bool Stream::openStream() { // open webcam
 
         if (!status) {  // Every tenth frame is analyzed
             status = true; // Thread in progress
-            std::thread analysisThread(ref(tempStream.analyzeFrame), std::ref(frame), std::ref(frameData), std::ref(status));
+            std::thread analysisThread(ref(tempStream.analyzeFrame), ref(frame), ref(frameData), ref(status));
             analysisThread.detach();
         }
 
