@@ -14,22 +14,29 @@
 class Feature {
 public:
     Feature();
-    Feature(Image & faceImage, std::string & cascadeFile);
-protected:
-    Image * _faceImage;
-    CascadeClassifier _cascade;
+    Feature(Mat & frame, std::string & cascadeFile);
 
-    // Measurements
+    // Accessors and mutators
+    int getHeight() const;
+    void setHeight(int height);
+    int getWidth() const;
+    void setWidth(int width);
+    int getX() const;
+    void setX(int x);
+    int getY() const;
+    void setY(int y);
+    bool getLoaded() const;
+
+protected:
+    Mat * _frame;
+    CascadeClassifier _cascade;
+    bool _loaded;
+
+    // Attributes
     int _height;
     int _width;
     int _x;
     int _y;
-
-    // Colors
-    Scalar YELLOW = Scalar(255,255,0);
-    Scalar LIME = Scalar(173,255,47);
-    Scalar BLUE = Scalar(0,0,255);
-    Scalar PURPLE = Scalar(138,43,226);
 };
 
 

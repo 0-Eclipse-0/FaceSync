@@ -11,12 +11,9 @@ using namespace cv;
 
 class Eye : public Feature {
 public:
-    Eye() : Feature() {};
-    Eye(Image & faceImage, std::string & cascadeFile) : Feature(faceImage, cascadeFile) {}
-    bool getEyes();
-
+    Eye() {};
+    Eye(int x, int y, int height, int width);
 private:
-    int _heuristic;
 };
 
 

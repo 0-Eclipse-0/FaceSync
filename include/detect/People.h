@@ -22,9 +22,9 @@ using namespace dnn;
 class People {
 public:
     People();
-    People(Config & config, const Mat& frame);
+    People(Config& config, const Mat& frame);
     ~People();
-    void getPeople();
+    void getPeople(Config& config);
     void showPeople() const;
     friend class Stream;
 private:

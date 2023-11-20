@@ -8,13 +8,6 @@ People::People() {
     _original = nullptr;
 }
 
-People::~People() {
-    if (_original) {
-        delete _original;
-        _original = nullptr;
-    }
-}
-
 People::People(Config& config, const Mat& frame) {
     _original = new Image(frame);
     _loaded = false;
@@ -24,14 +17,22 @@ People::People(Config& config, const Mat& frame) {
     _net.setPreferableBackend(DNN_BACKEND_OPENCV);
     _net.setPreferableTarget(DNN_TARGET_CPU);
 
-    getPeople();
+    getPeople(config);
 }
-void People::getPeople() {
+
+People::~People() {
+    if (_original) {
+        delete _original;
+        _original = nullptr;
+    }
+}
+
+void People::getPeople(Config& config) {
     if (!_original->_image) { // Validate that image and cascade have been loaded properly
         return;
     }
 
-    float confThreshold = 0.6;
+    float confThreshold = 0.25;
     float nmsThreshold = 0.5;
 
     vector<float> confidences;
@@ -95,7 +96,11 @@ void People::getPeople() {
             boxes[index].y + boxes[index].height <= _original->_image->rows) {
             Mat cropped = (*_original->_image)(boxes[index]);
 
-            _bodies.emplace_back(Body(cropped));
+            _bodies.emplace_back(Body(cropped, config,
+                                      boxes[index].x,
+                                      boxes[index].y,
+                                      boxes[index].height,
+                                      boxes[index].width));
             _rects.emplace_back(boxes[index]);
         }
     }

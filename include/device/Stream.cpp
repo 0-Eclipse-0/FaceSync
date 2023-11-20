@@ -33,9 +33,9 @@ bool Stream::openStream() { // open webcam
             analysisThread.detach();
         }
 
-        if (!frameData._rects.empty()) { // Overlay person on stream
-            for (auto const rect : frameData._rects) {
-                rectangle(frame, rect, Scalar(0, 165, 255), 2);
+        if (!frameData._bodies.empty()) { // Overlay person on stream
+            for (auto body : frameData._bodies) {
+                    body.drawBody(frame);
             }
         }
 

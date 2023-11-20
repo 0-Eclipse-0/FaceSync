@@ -7,7 +7,9 @@
 
 #include "Image.h"
 #include "Face.h"
+#include "Eyes.h"
 #include "Eye.h"
+#include "../device/Config.h"
 #include <opencv2/opencv.hpp>
 #include <string>
 #include <exception>
@@ -19,14 +21,22 @@ using namespace cv;
 class Body {
 public:
     Body();
-    Body(Mat & body);
+    Body(Mat& body, Config& config, int x, int y, int height, int width);
     Mat returnBody();
     void showBody() const;
+    void drawBody(Mat& frame);
 private:
     Mat _body;
     Face _face{};
-    Eye _eye{};
+    Eyes _eyes{};
     bool _loaded{};
+    Config _config;
+
+    // Attributes
+    int _x;
+    int _y;
+    int _height;
+    int _width;
 };
 
 

@@ -1,5 +1,5 @@
 //
-// Created by Matthew Hambrecht on 11/13/23.
+// Haar Cascade Face Finder Class
 //
 
 #ifndef FACESYNC_FACE_H
@@ -11,10 +11,12 @@ using namespace cv;
 class Face : public Feature {
 public:
     Face() : Feature() {};
-    Face(Image & faceImage, std::string & cascadeFile) : Feature(faceImage, cascadeFile) {}
-    bool getFace();
-    bool getFace(Mat & faceImage, std::string & cascadeFile);
+    Face(Mat& frame, std::string& cascadeFile) : Feature(frame, cascadeFile) {
+        _loaded = getFace(frame, cascadeFile);
+    }
+
 private:
+    bool getFace(Mat & faceImage, std::string& cascadeFile);
 };
 
 
