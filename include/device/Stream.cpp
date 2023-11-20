@@ -1,16 +1,18 @@
 //
 // Created by Matthew Hambrecht on 11/18/23.
 //
-#include <thread>
 #include "Stream.h"
+
+Stream::Stream() { // Configure models to ensure stream can be started
+    Config();
+}
+
 bool Stream::openStream() { // open webcam
     VideoCapture _cam(0);
-    int counter = 0;
     People frameData;
-    Stream tempStream;
     Mat frame;
-    bool status = false;
-    std::promise<void> completionPromise;
+
+    bool syncroStatus = false; // Used for synchronization of detached threads
 
     if (!_cam.isOpened()) { //  check if cam failed to open
         return false;
@@ -21,22 +23,29 @@ bool Stream::openStream() { // open webcam
     while (true) { // run recognition test
         _cam >> frame; // insert frame
 
-        if (!status) {  // Every tenth frame is analyzed
-            status = true; // Thread in progress
-            std::thread analysisThread(ref(tempStream.analyzeFrame), ref(frame), ref(frameData), ref(status));
+        if (!syncroStatus) {  // Frame is only analyzed when previous frame is done
+            syncroStatus = true;
+            std::thread analysisThread(&Stream::analyzeFrame,
+                                       std::ref(frame),
+                                       std::ref(frameData),
+                                       std::ref(syncroStatus),
+                                       std::ref(_config));
             analysisThread.detach();
         }
 
-        if (!frameData._rects.empty()) { // overlay person on stream
+        if (!frameData._rects.empty()) { // Overlay person on stream
             for (auto const rect : frameData._rects) {
                 rectangle(frame, rect, Scalar(0, 165, 255), 2);
             }
         }
 
         imshow("Webcam", frame);
-        counter++;
 
         if (waitKey(1) == 'q') { // Exit on keypress
+            while(syncroStatus) { // Sleep until thread death
+                sleep_for(10ns);
+                sleep_until(system_clock::now() + 1s);
+            }
             frameData = People(); // Avoid double free
             break;
         }
@@ -48,13 +57,9 @@ bool Stream::openStream() { // open webcam
     return true;
 }
 
-void Stream::analyzeFrame(Mat & frame, People & frameData, bool & status) {
-    People temp = People(frame,
-                         static_cast<string>(std::__fs::filesystem::current_path()) +
-                         "/data/yolo/yolov4-csp-swish.cfg",
-                         static_cast<string>(std::__fs::filesystem::current_path()) +
-                         "/data/yolo/yolov4-csp-swish.weights");
+void Stream::analyzeFrame(Mat & frame, People & frameData, bool & syncroStatus, Config & config) {
+    People temp = People(config, frame);
 
+    syncroStatus = false;
     frameData = temp;
-    status = false;
 }

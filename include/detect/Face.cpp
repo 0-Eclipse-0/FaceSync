@@ -10,7 +10,7 @@ bool Face::getFace() {
     }
 
     Mat thresh, grayscale, modified;
-    vector<Rect> found;
+    std::vector<Rect> found;
 
     // Prep image
     cvtColor(*_faceImage->_image, grayscale, COLOR_BGR2GRAY);
@@ -45,13 +45,13 @@ bool Face::getFace() {
     return true;
 }
 
-bool Face::getFace(Mat & faceImage, string & cascadeFile) {
+bool Face::getFace(Mat & faceImage, std::string & cascadeFile) {
     if (faceImage.empty()) { // empty matrix
         return false;
     }
 
     Mat thresh, grayscale, modified;
-    vector<Rect> found;
+    std::vector<Rect> found;
 
     // Prep image
     cvtColor(faceImage, grayscale, COLOR_BGR2GRAY);

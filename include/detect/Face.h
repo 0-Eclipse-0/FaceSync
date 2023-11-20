@@ -6,16 +6,14 @@
 #define FACESYNC_FACE_H
 #include "Feature.h"
 
-using namespace std;
 using namespace cv;
 
 class Face : public Feature {
 public:
     Face() : Feature() {};
-    Face(Image & faceImage, string & cascadeFile) : Feature(faceImage, cascadeFile) {}
+    Face(Image & faceImage, std::string & cascadeFile) : Feature(faceImage, cascadeFile) {}
     bool getFace();
-    bool getFace(Mat & faceImage, string & cascadeFile);
-
+    bool getFace(Mat & faceImage, std::string & cascadeFile);
 private:
 };
 

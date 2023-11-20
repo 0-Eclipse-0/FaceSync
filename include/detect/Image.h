@@ -10,7 +10,6 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/face/facerec.hpp>
 
-using namespace std;
 using namespace cv;
 
 const double SCALE = 1.0;
@@ -18,11 +17,11 @@ const double SCALE = 1.0;
 class Image {
 public:
     Image();
-    Image(const string& path);
+    Image(const std::string& path);
     Image(const Mat& mat);
     ~Image();
     void viewImage();
-    void loadImage(const string& path);
+    void loadImage(const std::string& path);
     void deleteImages();
     Mat returnFrame();
     friend class Eye;

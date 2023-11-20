@@ -1,7 +1,3 @@
-//
-// Created by Matthew Hambrecht on 11/13/23.
-//
-
 #include "Eye.h"
 
 bool Eye::getEyes() {
@@ -9,7 +5,7 @@ bool Eye::getEyes() {
         return false;
     }
 
-    vector<Rect> found;
+    std::vector<Rect> found;
     _cascade.detectMultiScale(*_faceImage->_image, found);
 
     if (found.size() != 2) {

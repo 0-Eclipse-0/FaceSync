@@ -17,7 +17,7 @@ Mat Body::returnBody() {
     return _body;
 }
 
-void Body::showBody() const { // Display single body for debugging
+void Body::showBody() const { // DEBUG
     if (!_loaded) {
         return;
     }

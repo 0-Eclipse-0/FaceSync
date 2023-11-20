@@ -4,7 +4,7 @@
 
 #include "Image.h"
 
-Image::Image(const string& path) { // Load from image
+Image::Image(const std::string& path) { // Load from image
     loadImage(path);
 }
 
@@ -22,7 +22,7 @@ Image::~Image() {
     deleteImages();
 }
 
-void Image::loadImage(const string& path) {
+void Image::loadImage(const std::string& path) {
     // Clear existing memory
     deleteImages();
 

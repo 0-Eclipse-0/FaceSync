@@ -8,7 +8,7 @@ Feature::Feature() {
     _faceImage = nullptr;
 }
 
-Feature::Feature(Image & faceImage, string & cascadeFile) {
+Feature::Feature(Image & faceImage, std::string & cascadeFile) {
     _faceImage = &faceImage;
     _cascade.load(cascadeFile);
 

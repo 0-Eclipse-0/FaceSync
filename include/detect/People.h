@@ -11,6 +11,7 @@
 #include <filesystem>
 #include <opencv2/highgui.hpp>
 #include <opencv2/dnn.hpp>
+#include "../device/Config.h"
 #include "Image.h"
 #include "Body.h"
 
@@ -21,8 +22,7 @@ using namespace dnn;
 class People {
 public:
     People();
-    People(const string & image, const string & config, const string & weights);
-    People(const Mat & image, const string & config, const string & weights);
+    People(Config & config, const Mat& frame);
     ~People();
     void getPeople();
     void showPeople() const;

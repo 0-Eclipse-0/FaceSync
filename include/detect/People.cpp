@@ -15,22 +15,10 @@ People::~People() {
     }
 }
 
-People::People(const string &path, const string &config, const string &weights) {
-    _original = new Image(path);
+People::People(Config& config, const Mat& frame) {
+    _original = new Image(frame);
     _loaded = false;
-    _net = dnn::readNetFromDarknet(config, weights);
-
-    // Preparation
-    _net.setPreferableBackend(DNN_BACKEND_OPENCV);
-    _net.setPreferableTarget(DNN_TARGET_CPU);
-
-    getPeople();
-}
-
-People::People(const Mat& image, const string& config, const string& weights) {
-    _original = new Image(image);
-    _loaded = false;
-    _net = dnn::readNetFromDarknet(config, weights);
+    _net = dnn::readNetFromDarknet(config.returnConfig()["yoloConfig"], config.returnConfig()["yoloWeight"]);
 
     // Preparation
     _net.setPreferableBackend(DNN_BACKEND_OPENCV);

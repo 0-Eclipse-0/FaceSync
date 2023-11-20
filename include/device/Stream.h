@@ -4,18 +4,33 @@
 
 #ifndef FACESYNC_STREAM_H
 #define FACESYNC_STREAM_H
+
 #include <opencv2/opencv.hpp>
 #include <string>
-#include <exception>
 #include <filesystem>
-#include <future>
+#include <thread>
+
 #include "../detect/Image.h"
 #include "../detect/People.h"
+#include "Config.h"
+
+using namespace std::this_thread;
+using namespace std::chrono_literals;
+using std::chrono::system_clock;
+
+const int MAX_THREAD_COUNT = 1; // Higher number means more processing power required
 
 class Stream {
 public:
+    Stream();
     bool openStream();
-    static void analyzeFrame(Mat & frame, People & frameData, bool & status);
+private:
+    static void analyzeFrame(Mat & frame,
+                             People & frameData,
+                             bool & syncroStatus,
+                             Config & config);
+
+    Config _config;
 };
 
 

@@ -14,7 +14,7 @@
 class Feature {
 public:
     Feature();
-    Feature(Image & faceImage, string & cascadeFile);
+    Feature(Image & faceImage, std::string & cascadeFile);
 protected:
     Image * _faceImage;
     CascadeClassifier _cascade;
