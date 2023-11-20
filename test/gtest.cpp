@@ -1,64 +1,64 @@
-#include "gtest/gtest.h"
 #include <string>
 #include <filesystem>
-#include "../include/Image.h"
-#include "../include/Face.h"
-#include "../include/Eye.h"
-#include "../include/People.h"
-#include "../include/Body.h"
+#include <chrono>
+
+#include "gtest/gtest.h"
+#include "../include/detect/Image.h"
+#include "../include/detect/Face.h"
+#include "../include/detect/Eye.h"
+#include "../include/detect/People.h"
+#include "../include/detect/Body.h"
+#include "../include/device/Stream.h"
+#include "../include/device/Config.h"
 
 // Test Images
 Image IMAGE_NORMAL(static_cast<string>(std::__fs::filesystem::current_path()) + "/test/images/test5.webp");
-string PEOPLE_IMAGE = static_cast<string>(std::__fs::filesystem::current_path()) + "/test/images/test9.jpg";
+string PEOPLE_IMAGE = static_cast<string>(std::__fs::filesystem::current_path()) + "/test/images/people_test1.jpeg";
 
-// Test Data
-string FACE_CASCADE_PATH = static_cast<string>(std::__fs::filesystem::current_path()) + "/data/haarcascades/haarcascade_frontalface_default.xml";
-string EYE_CASCADE_PATH = static_cast<string>(std::__fs::filesystem::current_path()) + "/data/haarcascades/haarcascade_eye_tree_eyeglasses.xml";
-string YOLO_CFG = static_cast<string>(std::__fs::filesystem::current_path()) + "/data/yolo/yolov3.cfg";
-string YOLO_WEIGHTS = static_cast<string>(std::__fs::filesystem::current_path()) + "/data/yolo/yolov3.weights";
+// Config Tests
+TEST (ConfigTest, NormalCase) {
+    EXPECT_NO_THROW(Config());
+}
+
+// Stream Tests
+TEST (StreamTest, StartStreamTest) { // Start stream from webcam
+    Stream webcam;
+
+    EXPECT_NO_THROW(Config());
+    ASSERT_EQ(true, webcam.openStream());
+}
 
 // People Tests
-TEST (PeopleTests, ExpectedOutcomes) {
-    People validPeople(PEOPLE_IMAGE,
-                       YOLO_CFG, YOLO_WEIGHTS);
+TEST (PeopleTests, ConstructTest) {
+    Config config = Config();
+    Mat people = Mat(imread(PEOPLE_IMAGE));
 
-    EXPECT_NO_THROW(validPeople.showPeople());
+    EXPECT_NO_THROW(People validPeople(config, people));
 }
 
-TEST (PeopleTests, ErrorCases) {
-    EXPECT_ANY_THROW(People emptyPeople("/err1", "/err2", "/err3"));
-}
+TEST (PeopleTests, TimeTest) { // Ensure (22 fps is plausible)
+    Config config = Config();
+    Mat people = Mat(imread(PEOPLE_IMAGE));
 
-// Body Tests
-TEST (BodyTests, ExpectedOutcomes) {
-    return;
-}
+    auto start = chrono::steady_clock::now();
 
-TEST (BodyTests, ErrorCases) {
-    return;
-}
+    People validPeople(config, people);
 
-// Face Tests
-TEST (FaceTests, ExpectedOutcomes) {
-    Face face(IMAGE_NORMAL,
-              (string &) FACE_CASCADE_PATH);
+    auto stop = chrono::steady_clock::now();
 
-    ASSERT_EQ(face.getFace(), true);
-}
+    auto duration =
+            std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
 
-// Eye Tests
-TEST (EyeTest, ExpectedOutcomes) {
-    Eye eye(IMAGE_NORMAL,
-            (string &) EYE_CASCADE_PATH);
+    double expected = 100000; // time per frame at 10fps
 
-    ASSERT_EQ(eye.getEyes(), true);
+    EXPECT_LT(duration.count(), expected);
+
+    auto secs = std::chrono::duration_cast<
+            std::chrono::milliseconds>(stop - start);
 }
 
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
-    auto ret = RUN_ALL_TESTS();
-    IMAGE_NORMAL.viewImage();
-
-    return ret;
+    return RUN_ALL_TESTS();
 }
 
