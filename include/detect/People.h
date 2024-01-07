@@ -12,7 +12,6 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/dnn.hpp>
 #include "../device/Config.h"
-#include "Image.h"
 #include "Body.h"
 
 using namespace std;
@@ -22,13 +21,13 @@ using namespace dnn;
 class People {
 public:
     People();
-    People(Config& config, const Mat& frame);
-    ~People();
+    People(Config& config, Mat& frame);
     void getPeople(Config& config);
     void showPeople() const;
     friend class Stream;
+    friend class Display;
 private:
-    Image * _original;
+    Mat * _original;
     vector<Body> _bodies;
     dnn::Net _net;
     vector<Rect> _rects;

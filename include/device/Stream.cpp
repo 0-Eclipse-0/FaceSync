@@ -8,7 +8,7 @@ Stream::Stream() { // Configure models to ensure stream can be started
     Config();
 }
 
-bool Stream::openStream() { // open webcam
+bool Stream::testStream() { // open webcam
     VideoCapture _cam(0);
     People frameData;
     Mat frame;
@@ -45,6 +45,7 @@ bool Stream::openStream() { // open webcam
 
         imshow("Webcam", frame);
 
+
         if (waitKey(1) == 'q') { // Exit on keypress
             while(syncroStatus) { // Sleep until thread death
                 sleep_for(10ns);
@@ -68,3 +69,4 @@ void Stream::analyzeFrame(Mat & frame, People & frameData, bool & syncroStatus, 
     frameData = temp;
     lock.unlock();
 }
+

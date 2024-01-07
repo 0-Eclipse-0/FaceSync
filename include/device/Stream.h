@@ -10,7 +10,6 @@
 #include <filesystem>
 #include <thread>
 
-#include "../detect/Image.h"
 #include "../detect/People.h"
 #include "Config.h"
 
@@ -23,13 +22,15 @@ const int MAX_THREAD_COUNT = 1; // Higher number means more processing power req
 class Stream {
 public:
     Stream();
-    bool openStream();
+    bool testStream();
 private:
     static void analyzeFrame(Mat & frame,
                              People & frameData,
                              bool & syncroStatus,
                              Config & config,
                              std::mutex & lock);
+
+
 
     Config _config;
 };

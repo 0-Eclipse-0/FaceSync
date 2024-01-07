@@ -5,7 +5,6 @@
 #ifndef FACESYNC_BODY_H
 #define FACESYNC_BODY_H
 
-#include "Image.h"
 #include "../device/Config.h"
 #include <opencv2/opencv.hpp>
 #include <string>

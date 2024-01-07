@@ -8,8 +8,8 @@ People::People() {
     _original = nullptr;
 }
 
-People::People(Config& config, const Mat& frame) {
-    _original = new Image(frame);
+People::People(Config& config, Mat& frame) {
+    _original = &frame;
     _loaded = false;
     _net = dnn::readNetFromDarknet(config.returnConfig()["yoloConfig"], config.returnConfig()["yoloWeight"]);
 
@@ -20,19 +20,12 @@ People::People(Config& config, const Mat& frame) {
     getPeople(config);
 }
 
-People::~People() {
-    if (_original) {
-        delete _original;
-        _original = nullptr;
-    }
-}
-
 void People::getPeople(Config& config) {
-    if (!_original->_image) { // Validate that image and cascade have been loaded properly
+    if (!_original) { // Validate that image and cascade have been loaded properly
         return;
     }
 
-    float confThreshold = 0.25;
+    float confThreshold = 0.4;
     float nmsThreshold = 0.5;
 
     vector<float> confidences;
@@ -44,7 +37,7 @@ void People::getPeople(Config& config) {
     }
 
     vector<Mat> found;
-    Mat blob = blobFromImage(*_original->_image,
+    Mat blob = blobFromImage(*_original,
                              0.00392,
                              Size(416, 416),
                              Scalar(0, 0, 0),
@@ -67,13 +60,13 @@ void People::getPeople(Config& config) {
 
             if (confidence > confThreshold && classIdPoint.x == 1) { // 0 is "person" in dataset
                 int centerX = static_cast<int>(data[0]    // get coords
-                                               * _original->_image->cols);
+                                               * _original->cols);
                 int centerY = static_cast<int>(data[1]
-                                               * _original->_image->rows);
+                                               * _original->rows);
                 int width = static_cast<int>(data[2]
-                                             * _original->_image->cols);
+                                             * _original->cols);
                 int height = static_cast<int>(data[3]
-                                              * _original->_image->rows);
+                                              * _original->rows);
 
                 int left = centerX - width / 2;
                 int top = centerY - height / 2;
@@ -92,9 +85,9 @@ void People::getPeople(Config& config) {
 
     for (const auto &index: indices) { // Crop bodies and add to body count
         if (boxes[index].x >= 0 && boxes[index].y >= 0 && // verify box size is within bounds
-            boxes[index].x + boxes[index].width <= _original->_image->cols &&
-            boxes[index].y + boxes[index].height <= _original->_image->rows) {
-            Mat cropped = (*_original->_image)(boxes[index]);
+            boxes[index].x + boxes[index].width <= _original->cols &&
+            boxes[index].y + boxes[index].height <= _original->rows) {
+            Mat cropped = (*_original)(boxes[index]);
 
             _bodies.emplace_back(Body(cropped, config,
                                       boxes[index].x,

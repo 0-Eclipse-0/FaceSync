@@ -23,7 +23,6 @@ Mat Body::returnBody() {
 }
 
 void Body::drawBody(Mat& frame) { //  Overlay known features on image
-    std::cout << "Found body!" << std::endl;
     // Draw body rectangle
     Rect bodyRectangle = Rect(_x, _y, _width, _height);
     rectangle(frame,
@@ -36,6 +35,7 @@ void Body::showBody() const { // DEBUG
     if (!_loaded) {
         return;
     }
+
     if (!_body.empty()) {
         imshow("Debug (Body)", _body);
         waitKey(0);
