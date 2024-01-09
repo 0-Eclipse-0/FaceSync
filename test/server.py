@@ -13,9 +13,9 @@ def serve_gif(port, gif_path):
 if __name__ == "__main__":
     # Define your ports and corresponding gif paths here
     ports = [5000, 5001, 5002, 5003, 5004, 5005, 5006]
-    gif_paths = ['../data/images/cam_1.gif', '../data/images/cam_2.gif', '../data/images/cam_3.gif',
-                 '../data/images/cam_4.gif', '../data/images/cam_5.gif', '../data/images/cam_6.gif',
-                 '../data/images/cam_7.gif']
+    gif_paths = ['../test/images/cam_1.gif', '../test/images/cam_2.gif', '../test/images/cam_3.gif',
+                 '../test/images/cam_4.gif', '../test/images/cam_5.gif', '../test/images/cam_6.gif',
+                 '../test/images/cam_7.gif']
 
     # Create and start a separate process for each port
     for port, gif_path in zip(ports, gif_paths):

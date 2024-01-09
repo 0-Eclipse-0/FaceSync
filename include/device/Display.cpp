@@ -3,7 +3,6 @@
 //
 
 #include "Display.h"
-#include <QApplication>
 
 Display::Display() {
     _streams = {};
@@ -34,7 +33,7 @@ void Display::openDisplay() {
     cv::Mat currFrame{};
     cv::VideoCapture staticGIF(
             static_cast<std::string>(std::__fs::filesystem::current_path())
-                            + "/data/images/static.gif");
+                            + "/data/static.gif");
     cv::namedWindow("CCTV Dashboard", cv::WINDOW_NORMAL);
     cv::Mat image(_displayY,
                   _displayX,
@@ -94,6 +93,7 @@ void Display::openDisplay() {
                 currFrame.copyTo(destRoi);
 
                 // Add label
+                // Bold background
                 putText(image,
                         frameLabel,
                         cv::Point(j * frameSize + 5, i * frameSize + 25),
@@ -101,6 +101,8 @@ void Display::openDisplay() {
                         2,
                         CV_RGB(0, 0, 0),
                         6.0);
+
+                // White foreground
                 putText(image,
                         frameLabel,
                         cv::Point(j * frameSize + 5, i * frameSize + 25),
@@ -133,8 +135,6 @@ void Display::openDisplay() {
             break;
         }
     }
-
-    std::cout << "End" << std::endl;
 }
 
 int Display::getDisplayX() const {

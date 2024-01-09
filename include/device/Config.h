@@ -17,6 +17,8 @@
 const std::vector <std::string> EXPECTED_VALUES = {
         "yoloWeight",
         "yoloConfig",
+        "cameras",
+        "log",
 };
 
 class Config {

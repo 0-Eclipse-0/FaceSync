@@ -7,10 +7,12 @@
 
 #include <vector>
 #include <filesystem>
+#include <utility>
 
 #include "../detect/People.h"
 #include "CCTV.h"
 #include "Config.h"
+#include "Log.h"
 
 class Display {
 public:
