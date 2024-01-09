@@ -26,6 +26,19 @@ public:
     People(Config& config, Mat& frame);
     void getPeople(Config& config);
     void showPeople() const;
+    Mat *getOriginal() const;
+    void setOriginal(Mat *original);
+    const vector<Body> &getBodies() const;
+    void setBodies(const vector<Body> &bodies);
+    const Net &getNet() const;
+    void setNet(const Net &net);
+    const vector<Rect> &getRects() const;
+    void setRects(const vector<Rect> &rects);
+    bool isLoaded() const;
+    void setLoaded(bool loaded);
+    const vector<pair<int, int>> &getDetections() const;
+    void setDetections(const vector<pair<int, int>> &detections);
+
     friend class Stream;
     friend class Display;
 private:
@@ -33,7 +46,7 @@ private:
     vector<Body> _bodies;
     dnn::Net _net;
     vector<Rect> _rects;
-
+    vector<pair<int, int>> _detections;
     bool _loaded;
 };
 

@@ -84,6 +84,9 @@ void People::getPeople(Config& config) {
              indices);
 
     for (const auto &index: indices) { // Crop bodies and add to body count
+        // Add coords to detections
+        _detections.emplace_back(boxes[index].x, boxes[index].y);
+
         if (boxes[index].x >= 0 && boxes[index].y >= 0 && // verify box size is within bounds
             boxes[index].x + boxes[index].width <= _original->cols &&
             boxes[index].y + boxes[index].height <= _original->rows) {
@@ -110,4 +113,52 @@ void People::showPeople() const { // DEBUG
     for (const auto& body : _bodies) { //  display all bodies (for debugging)
         body.showBody();
     }
+}
+
+const vector<pair<int, int>> &People::getDetections() const {
+    return _detections;
+}
+
+void People::setDetections(const vector<pair<int, int>> &detections) {
+    _detections = detections;
+}
+
+Mat *People::getOriginal() const {
+    return _original;
+}
+
+void People::setOriginal(Mat *original) {
+    _original = original;
+}
+
+const vector<Body> &People::getBodies() const {
+    return _bodies;
+}
+
+void People::setBodies(const vector<Body> &bodies) {
+    _bodies = bodies;
+}
+
+const Net &People::getNet() const {
+    return _net;
+}
+
+void People::setNet(const Net &net) {
+    _net = net;
+}
+
+const vector<Rect> &People::getRects() const {
+    return _rects;
+}
+
+void People::setRects(const vector<Rect> &rects) {
+    _rects = rects;
+}
+
+bool People::isLoaded() const {
+    return _loaded;
+}
+
+void People::setLoaded(bool loaded) {
+    _loaded = loaded;
 }

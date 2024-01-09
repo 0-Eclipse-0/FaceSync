@@ -9,7 +9,15 @@ Display::Display() {
     _activeStreams = 0;
     _displayX = 1500;
     _displayY = 1500;
+    _height = 0;
     _config = Config();
+}
+
+int Display::normalizePoint(int x, int y) { // Normalize points for mapping to key
+    int x_n = x / (_displayX / _height);
+    int y_n = y / (_displayY / _height);
+
+    return x_n + y_n * _height;
 }
 
 bool Display::addDisplay(CCTV &cctv) {
@@ -28,6 +36,8 @@ void Display::openDisplay() {
         throw std::runtime_error("[Error] No streams opened!");
     }
 
+    bool keyMapped = false; // Variable to determine if we've already mapped the cameras to locations on grid
+    std::pair<string, unsigned long long> key[_activeStreams];
     std::string frameLabel{};
     cv::Point topLeft{};
     cv::Mat currFrame{};
@@ -52,12 +62,17 @@ void Display::openDisplay() {
 
         // Update image
         cv::imshow("CCTV Dashboard", image);
-
         // Build 2D matrix from 1D vector
         for (int i = 0, counter = 0; i < matrixDimension; i++) {
             for (int j = 0; j < matrixDimension; j++) {
                 // Update region of interest for each frame
                 topLeft = cv::Point(j * frameSize, i * frameSize);
+
+                // Map cameras to key for later
+                if (!keyMapped && counter < _activeStreams) {
+                    key[counter] = make_pair(_streams[counter].getCctvName(), 0);
+                }
+
                 cv::Rect roi(topLeft,
                              cv::Size(frameSize, frameSize));
                 cv::Mat destRoi = image(roi);
@@ -111,16 +126,33 @@ void Display::openDisplay() {
                         CV_RGB(255, 255, 255),
                         2.0);
             }
+            if (!keyMapped) _height++;
         }
 
         // For static frame incrementing
+        keyMapped = true;
         staticFrameCount++;
 
         // Detection
         if (!image.empty()) {
             frameData = People(_config, image);
-        } else {
-            std::cout << "Empty" << std::endl;
+            unsigned long long currTime = std::chrono::duration_cast<std::chrono::milliseconds>
+                    (std::chrono::system_clock::now().time_since_epoch()).count();
+
+            if (!frameData.getDetections().empty()) { // Log if detections found
+                for (auto & i : frameData.getDetections()) {
+                    // Determine if this is a relatively new detection (for logging)
+                    if ((key[normalizePoint(i.first, i.second)].second + THRESHOLD)
+                    <= currTime) {
+                        // Reset time for camera
+                        key[normalizePoint(i.first, i.second)].second = currTime;
+
+                        // ADD TO LOG (TODO)
+                        std::cout << "New detection on " <<
+                            key[normalizePoint(i.first, i.second)].first << std::endl;
+                    }
+                }
+            }
         }
 
         // Draw bodies
@@ -151,4 +183,36 @@ int Display::getDisplayY() const {
 
 void Display::setDisplayY(int displayY) {
     _displayY = displayY;
+}
+
+const std::vector<CCTV> &Display::getStreams() const {
+    return _streams;
+}
+
+void Display::setStreams(const std::vector<CCTV> &streams) {
+    _streams = streams;
+}
+
+int Display::getActiveStreams() const {
+    return _activeStreams;
+}
+
+void Display::setActiveStreams(int activeStreams) {
+    _activeStreams = activeStreams;
+}
+
+int Display::getHeight() const {
+    return _height;
+}
+
+void Display::setHeight(int height) {
+    _height = height;
+}
+
+const Config &Display::getConfig() const {
+    return _config;
+}
+
+void Display::setConfig(const Config &config) {
+    _config = config;
 }
