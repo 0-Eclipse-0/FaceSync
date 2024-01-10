@@ -7,16 +7,14 @@
 Display::Display() {
     _streams = {};
     _activeStreams = 0;
-    _displayX = 1500;
-    _displayY = 1500;
     _matrixDimensions = 0;
     _config = Config();
 }
 
 // Flatten pixel coordinates and scale to matrix
 int Display::normalizePoint(int x, int y) { // Normalize points for mapping to key
-    int x_n = x / (_displayX / _matrixDimensions);
-    int y_n = y / (_displayY / _matrixDimensions);
+    int x_n = x / (DISPLAY_SIZE / _matrixDimensions);
+    int y_n = y / (DISPLAY_SIZE / _matrixDimensions);
 
     return x_n + y_n * _matrixDimensions;
 }
@@ -37,7 +35,7 @@ bool Display::addDisplay(CCTV &cctv) {
 void Display::buildMatrix(const bool & keyMapped, cv::Mat & currFrame,
                           cv::Mat & image, cv::VideoCapture & staticGIF,
                           std::pair<std::string, unsigned long long> key[]) {
-    int frameSize = _displayY / _matrixDimensions;
+    int frameSize = DISPLAY_SIZE / _matrixDimensions;
     std::string frameLabel = "";
 
     for (int i = 0, counter = 0; i < _matrixDimensions; i++) {
@@ -144,8 +142,8 @@ void Display::openDisplay() {
             static_cast<std::string>(std::__fs::filesystem::current_path())
                             + "/data/static.gif");
     cv::namedWindow("CCTV Dashboard", cv::WINDOW_NORMAL);
-    cv::Mat image(_displayY,
-                  _displayX,
+    cv::Mat image(DISPLAY_SIZE,
+                  DISPLAY_SIZE,
                   CV_8UC3,
                   cv::Scalar(0, 0, 0));
     _matrixDimensions = ceil(sqrt(_activeStreams));

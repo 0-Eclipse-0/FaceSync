@@ -15,6 +15,7 @@
 #include "Log.h"
 
 const int THRESHOLD = 10000; // Logging threshold (5s)
+const int DISPLAY_SIZE = 20002;
 
 class Display {
 public:
@@ -31,8 +32,6 @@ public:
 private:
     std::vector<CCTV> _streams{};
     int _activeStreams;
-    int _displayX;
-    int _displayY;
     int _matrixDimensions;
     Config _config;
 
