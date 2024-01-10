@@ -1,4 +1,4 @@
-># FaceSync
+5># FaceSync
 > This project focuses on simplifying surveillance analysis by implementing body detection on multiple CCTV feeds concurrently.
 > The goal is to facilitate the review process and streamline the identification of events, such as burglaries, by providing time-stamped data on human presence. The system
 > employs advanced computer vision algorithms for efficient processing and offers a user-friendly logging solution. With a focus on retrospective analysis, and
@@ -19,7 +19,7 @@
 
 ### Samples
 ###### Test run on python servers hosting gifs
-![](blob:2https://giphy.com/1b8988a2-7ef2-4a82-bd09-047d2605732f)
+![](https://s13.gifyu.com/images/S0KuO.gif)
 
 ###### Logging sample from test run
-![]()
+![](https://github.com/0-Eclipse-0/FaceSync/blob/main/docs/logging.png?raw=true)
