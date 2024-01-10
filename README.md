@@ -18,8 +18,8 @@
 5. Run executable. (Window size can be modified in `display.h` as `DISPLAY_SIZE`.
 
 ### Samples
-###### Test run on python servers hosting gifs
+#### Test run on python servers hosting gifs
 ![](https://github.com/0-Eclipse-0/FaceSync/blob/main/docs/preview.gif?raw=true)
 
-###### Logging sample from test run
+#### Logging sample from test run
 ![](https://github.com/0-Eclipse-0/FaceSync/blob/main/docs/logging.png?raw=true)
