@@ -1,5 +1,5 @@
 //
-// Created by Matthew Hambrecht on 11/14/23.
+// Body class for handling detections and their bounding boxes
 //
 
 #ifndef FACESYNC_BODY_H
@@ -12,23 +12,12 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/face/facerec.hpp>
 
-using namespace cv;
-
 class Body {
 public:
-    Body();
-    Body(Mat& body, Config& config, int x, int y, int height, int width);
-    Mat returnBody();
-    void showBody() const;
-    void drawBody(Mat& frame);
-    const Mat &getBody() const;
-    void setBody(const Mat &body);
-    bool isLoaded() const;
-    void setLoaded(bool loaded);
-
+    Body(cv::Mat& body, Config& config, int x, int y, int height, int width);
+    void drawBody(cv::Mat& frame);
 private:
-    Mat _body{};
-    bool _loaded{};
+    cv::Mat _body{};
 
     // Attributes
     int _x;

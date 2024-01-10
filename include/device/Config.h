@@ -24,8 +24,8 @@ const std::vector <std::string> EXPECTED_VALUES = {
 class Config {
 public:
     Config();
-    std::string getFullPath(const std::string& relativePath);
-    void checkFileExists(const std::string& fullPath);
+    std::string getFullPath(const std::string & relativePath);
+    void checkFileExists(const std::string & fullPath);
     void compareExpected();
     std::unordered_map<std::string, std::string> returnConfig() { return _filePaths; }
 private:

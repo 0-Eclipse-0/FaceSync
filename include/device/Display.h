@@ -14,7 +14,7 @@
 #include "Config.h"
 #include "Log.h"
 
-const int THRESHOLD = 5000; // Logging threshold (5s)
+const int THRESHOLD = 10000; // Logging threshold (5s)
 
 class Display {
 public:
@@ -22,27 +22,18 @@ public:
 
     bool addDisplay(CCTV& cctv);
     void openDisplay();
-
-    // Accessors and Mutators
-    int getDisplayX() const;
-    void setDisplayX(int displayX);
-    int getDisplayY() const;
-    void setDisplayY(int displayY);
-    const std::vector<CCTV> &getStreams() const;
-    void setStreams(const std::vector<CCTV> &streams);
-    int getActiveStreams() const;
-    void setActiveStreams(int activeStreams);
-    int getHeight() const;
-    void setHeight(int height);
-    const Config &getConfig() const;
-    void setConfig(const Config &config);
+    void buildMatrix(const bool & keyMapped, cv::Mat & currFrame,
+                     cv::Mat & image, cv::VideoCapture & staticGIF,
+                     std::pair<std::string, unsigned long long> key[]);
+    void logData(People & frameData,  std::pair<std::string,
+                          unsigned long long> key[], Log & log);
 
 private:
     std::vector<CCTV> _streams{};
     int _activeStreams;
     int _displayX;
     int _displayY;
-    int _height;
+    int _matrixDimensions;
     Config _config;
 
     // Private functions

@@ -1,5 +1,5 @@
 //
-// Created by Matthew Hambrecht on 11/14/23.
+// Main class for storing people detected within an image
 //
 
 #ifndef FACESYNC_PEOPLE_H
@@ -16,37 +16,30 @@
 #include "Body.h"
 #include "../device/Log.h"
 
-using namespace std;
-using namespace cv;
-using namespace dnn;
+const float CONF_THRESHOLD = 0.4;
+const float NMS_THRESHOLD = 0.5;
 
 class People {
 public:
     People();
-    People(Config& config, Mat& frame);
+    People(Config& config, cv::Mat& frame);
     void getPeople(Config& config);
-    void showPeople() const;
-    Mat *getOriginal() const;
-    void setOriginal(Mat *original);
-    const vector<Body> &getBodies() const;
-    void setBodies(const vector<Body> &bodies);
-    const Net &getNet() const;
-    void setNet(const Net &net);
-    const vector<Rect> &getRects() const;
-    void setRects(const vector<Rect> &rects);
-    bool isLoaded() const;
-    void setLoaded(bool loaded);
-    const vector<pair<int, int>> &getDetections() const;
-    void setDetections(const vector<pair<int, int>> &detections);
+    const std::vector<std::pair<int, int>>& getDetections() const;
+    void getBounds(std::vector<int>& indices,
+                   std::vector<cv::Rect>& boxes,
+                   Config& config);
+    void parseResults(std::vector<cv::Mat>& found,
+                              std::vector<cv::Rect>& boxes,
+                              std::vector<float>& confidences);
 
     friend class Stream;
     friend class Display;
 private:
-    Mat * _original;
-    vector<Body> _bodies;
-    dnn::Net _net;
-    vector<Rect> _rects;
-    vector<pair<int, int>> _detections;
+    cv::Mat * _original;
+    std::vector<Body> _bodies;
+    cv::dnn::Net _net;
+    std::vector<cv::Rect> _rects;
+    std::vector<std::pair<int, int>> _detections;
     bool _loaded;
 };
 

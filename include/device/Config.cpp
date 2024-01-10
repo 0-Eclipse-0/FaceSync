@@ -31,13 +31,13 @@ Config::Config() {
     compareExpected();
 }
 
-std::string Config::getFullPath(const std::string& relativePath) { // Convert relative path to full path
+std::string Config::getFullPath(const std::string & relativePath) { // Convert relative path to full path
     return static_cast<std::string>(std::__fs::filesystem::current_path())
     + "/"
     + relativePath;
 }
 
-void Config::checkFileExists(const std::string& fullPath) { // Death on invalid file
+void Config::checkFileExists(const std::string & fullPath) { // Death on invalid file
     std::__fs::filesystem::path filePath(fullPath);
 
     if (!std::__fs::filesystem::exists(filePath)) {
@@ -46,7 +46,7 @@ void Config::checkFileExists(const std::string& fullPath) { // Death on invalid 
 }
 
 void Config::compareExpected() { //  Death on missing config key
-    for (auto const& key : EXPECTED_VALUES) {
+    for (auto const & key : EXPECTED_VALUES) {
         if (_filePaths.find(key) == _filePaths.end()) {
             throw std::runtime_error("[Error] Key not found in config: " + key);
         }

@@ -1,5 +1,5 @@
 //
-// Created by Matthew Hambrecht on 1/8/24.
+// Class to hold and handle logging of detections
 //
 
 #ifndef FACESYNC_LOG_H
@@ -8,13 +8,17 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-#include <utility>
+#include <iomanip>
+#include <ctime>
+#include <sstream>
+
 class Log {
 public:
     Log();
     Log(std::string logFile);
-    void write(std::pair<std::string, std::string> logInfo);
-    friend class Display;
+    void write(std::string cameraName);
+    std::string getTimeStr();
+
 private:
     std::fstream _log;
 };
