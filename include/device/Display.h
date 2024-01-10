@@ -15,7 +15,7 @@
 #include "Log.h"
 
 const int THRESHOLD = 10000; // Logging threshold (5s)
-const int DISPLAY_SIZE = 20002;
+const int DISPLAY_SIZE = 2000;
 
 class Display {
 public:
