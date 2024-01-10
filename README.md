@@ -19,7 +19,7 @@
 
 ### Samples
 ###### Test run on python servers hosting gifs
-![](https://s13.gifyu.com/images/S0KuO.gif)
+![](https://github.com/0-Eclipse-0/FaceSync/blob/main/docs/preview.gif?raw=true)
 
 ###### Logging sample from test run
 ![](https://github.com/0-Eclipse-0/FaceSync/blob/main/docs/logging.png?raw=true)
