@@ -16,3 +16,10 @@
 3. Build with `cmake CMakeLists.txt`
 4. Fill camera file with camera addresses using the format `Camera Name::protocol://username:password@ip:port`. For specific details on your camera review the model.
 5. Run executable. (Window size can be modified in `display.h` as `DISPLAY_SIZE`.
+
+### Samples
+###### Test run on python servers hosting gifs
+![](blob:2https://giphy.com/1b8988a2-7ef2-4a82-bd09-047d2605732f)
+
+###### Logging sample from test run
+![]()
