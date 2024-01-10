@@ -14,12 +14,12 @@ int main() {
     // Variables
     Display display;
     Config config;
-    fstream cameras;
+    std::fstream cameras;
     std::smatch key;
     std::smatch value;
     CCTV stream;
 
-    cameras.open(config.returnConfig()["cameras"], ios::in); // Read file
+    cameras.open(config.returnConfig()["cameras"], std::ios::in); // Read file
 
     std::string streamData;
     while(getline(cameras, streamData)){
@@ -30,7 +30,8 @@ int main() {
 
             stream = CCTV(key[1], value[1]);
 
-            std::cout << "Connecting to " << value[1] << ". Please wait...\n";
+            std::cout << "\e[1;92m[FaceSync]\033[0m " << "Connecting to " << "\e[1;37m" << value[1] << "\033[0m" << ". Please wait...\n";
+
             display.addDisplay(stream);
         } else { // Avoid bad addresses
             throw std::runtime_error("[Error] Invalid camera file format"
@@ -38,8 +39,6 @@ int main() {
         }
     }
     cameras.close(); // Close the file object.
-
-    cout << "Opening display..." << std::endl;
     display.openDisplay();
 
     return 0;
