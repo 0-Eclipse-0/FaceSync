@@ -10,7 +10,7 @@ hardware limitations solely on the host computer.
 ### Requirements
 - C++17
 - OpenCV 4.8.1+
-- YOLOv4 Data Set ([download here](https://github.com/AlexeyAB/darknet/tree/master/cfg))
+- YOLOv4 Data Set ([download here](https://github.com/AlexeyAB/darknet/tree/master/cfg))([whitepaper](https://pjreddie.com/media/files/papers/YOLOv3.pdf))
 
 ### Setup
 1. Set paths in *config.ini* to required locations. (**Optional**: Default files and locations are provided)
