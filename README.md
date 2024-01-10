@@ -15,7 +15,7 @@ hardware limitations solely on the host computer.
 ### Setup
 1. Set paths in *config.ini* to required locations. (**Optional**: Default files and locations are provided)
 2. Modify `THRESHOLD` in `include/device/Display.h` with the delay you want the program to use before logging new detections on each specific feed after each detection. (Recommended: 300000ms = 5 minutes).
-3. Build with `cmake CMakeLists.txt`
+3. Build with `cmake CMakeLists.txt && make`
 4. Fill camera file with camera addresses using the format `Camera Name::protocol://username:password@ip:port`. For specific details on your camera review the model.
 5. Run executable. (Window size can be modified in `display.h` as `DISPLAY_SIZE`.
 
